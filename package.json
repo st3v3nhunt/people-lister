@@ -8,7 +8,8 @@
     "lint": "eslint --ext .js,.json .",
     "start": "node app.js",
     "start-watch": "nodemon app.js",
-    "test": "nyc --nycrc-path=.nycrc.json mocha --exit --recursive test",
+    "start-watch-debug": "nodemon --inspect-brk app.js",
+    "test": "PORT=3002 nyc --nycrc-path=.nycrc.json mocha --exit --recursive test",
     "test-watch": "PORT=3001 npm run test -- --watch --reporter min"
   },
   "keywords": [
@@ -24,6 +25,7 @@
   "dependencies": {
     "bunyan": "^1.8.12",
     "express": "^4.17.1",
+    "haversine": "^1.1.1",
     "helmet": "^3.21.2",
     "nodemon": "^2.0.2",
     "request": "^2.88.0",

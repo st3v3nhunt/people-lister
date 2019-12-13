@@ -1,9 +1,9 @@
-function badRequest(req, res) {
+function badRequest(req, res, msg) {
   const badRequestStatus = 400;
 
   res.set('Content-Type', 'application/problem+json; charset=utf-8')
     .status(badRequestStatus)
-    .send({ detail: 'Request must contain a \'location\' parameter.', status: badRequestStatus, title: 'Bad Request' });
+    .send({ detail: msg, status: badRequestStatus, title: 'Bad Request' });
 }
 
 module.exports = badRequest;
