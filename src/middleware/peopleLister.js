@@ -1,26 +1,18 @@
-const haversine = require('haversine');
-
 const notFound = require('./notFound');
-const { getAllUsers, getLocationUsers } = require('../utils/request');
 const { distanceSearchType } = require('../config').app;
+const filterUsers = require('../utils/filterUsers');
+const { getAllUsers, getLocationUsers } = require('../utils/request');
 
-async function people(req, res) {
+async function peopleLister(req, res) {
   const { searchType } = res.locals;
 
   try {
     if (searchType === distanceSearchType) {
-      const data = await getAllUsers();
-      const users = [];
       // TODO: perform lookup based on location - currently hardcoded to London
       const origin = { latitude: 51.5074, longitude: 0.1278 };
+      const data = await getAllUsers();
 
-      data.forEach((x) => {
-        const dest = { latitude: parseFloat(x.latitude), longitude: parseFloat(x.longitude) };
-        const distanceBetweenPoints = haversine(origin, dest, { unit: 'mile' });
-        if (distanceBetweenPoints <= 50) {
-          users.push(x);
-        }
-      });
+      const users = filterUsers(data, origin);
       res.status(200).json(users);
     } else {
       const data = await getLocationUsers();
@@ -32,4 +24,4 @@ async function people(req, res) {
   }
 }
 
-module.exports = people;
+module.exports = peopleLister;

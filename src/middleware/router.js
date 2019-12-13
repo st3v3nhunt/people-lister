@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const people = require('./people');
+const peopleLister = require('./peopleLister');
 const { validateLocation, validateDistance } = require('./requestValidator');
 
 router.get('/', (req, res) => {
@@ -11,7 +11,7 @@ router.get(
   '/people',
   validateLocation,
   validateDistance,
-  people
+  peopleLister
 );
 
 module.exports = router;
