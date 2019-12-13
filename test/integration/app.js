@@ -1,6 +1,7 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const app = require('../../app');
+const { expect404 } = require('../utils/expectations');
 
 const { expect } = chai;
 
@@ -22,11 +23,7 @@ describe('basic features', () => {
     it('should return 404 response in the problem detail format', async () => {
       const res = await chai.request(app).get('/unknown');
 
-      expect(res).to.have.status(404);
-      expect(res).to.have.header('Content-Type', 'application/problem+json; charset=utf-8');
-      expect(res.body).to.have.property('status', 404);
-      expect(res.body).to.have.property('detail', 'Not Found');
-      expect(res.body).to.have.property('title', 'Not Found');
+      expect404(res);
     });
   });
 
