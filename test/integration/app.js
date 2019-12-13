@@ -19,11 +19,14 @@ describe('basic features', () => {
   });
 
   describe('unknown route', () => {
-    it('should return 404 response', async () => {
+    it('should return 404 response in the problem detail format', async () => {
       const res = await chai.request(app).get('/unknown');
 
       expect(res).to.have.status(404);
-      expect(res.body).to.be.empty;
+      expect(res).to.have.header('Content-Type', 'application/problem+json; charset=utf-8');
+      expect(res.body).to.have.property('status', 404);
+      expect(res.body).to.have.property('detail', 'Not Found');
+      expect(res.body).to.have.property('title', 'Not Found');
     });
   });
 
