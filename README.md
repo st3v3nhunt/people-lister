@@ -23,6 +23,14 @@ Dependencies are installed via `npm install`.
 The app can be started by running `npm run start` after which the API will be
 available at [http://localhost:3000](http://localhost:3000).
  
+
+## Environment Variables
+
+| Variable     | Description                                                                                             | Default                                |
+| :-------     | :----------                                                                                             | :------                                |
+| `API_SERVER` | [FQDN](https://en.wikipedia.org/wiki/Fully_qualified_domain_name) of the API server, including protocol | `https://bpdts-test-app.herokuapp.com` |
+| `PORT`       | The port the application is available on                                                                | 3000                                   |
+
 ### Implementation notes
 
 ...

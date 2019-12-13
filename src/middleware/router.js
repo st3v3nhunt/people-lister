@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const people = require('./middleware/people');
+const people = require('./people');
 
 router.get('/', (req, res) => {
   res.json({ greeting: 'hello' });

@@ -1,7 +1,9 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const nock = require('nock');
 const app = require('../../app');
 const { expect400, expect404 } = require('../utils/expectations');
+const cityLondonUsers = require('../resources/city.london.users.json');
 
 const { expect } = chai;
 
@@ -30,13 +32,32 @@ describe('people route', () => {
       expect404(res, `No results found for '${location}'.`);
     });
 
-    it.skip('should return 200 response with all people matching query as JSON', async () => {
-      const res = await chai.request(app).get('/people').query({ location: 'london' });
+    ['London', 'london', 'LONDON'].forEach((location) => {
+      it(`should return 'London' people when request is for 'london', regardless of input casing - testing '${location}'`, async () => {
+        nock('https://bpdts-test-app.herokuapp.com/')
+          .get('/city/London/users')
+          .reply(200, cityLondonUsers);
 
-      expect(res).to.have.status(200);
-      expect(res).to.be.json;
-      expect(res.body).to.be.instanceof(Array);
-      expect(res.body.length).to.be(100);
+        const res = await chai.request(app).get('/people').query({ location });
+
+        expect(res).to.have.status(200);
+        expect(res).to.be.json;
+        expect(res.body).to.be.instanceof(Array);
+        expect(res.body.length).to.equal(6);
+      });
+    });
+
+    [400, 403, 404, 500].forEach((errorStatus) => {
+      it(`should return 404 response as JSON when request to API return an error - testing '${errorStatus}'`, async () => {
+        nock('https://bpdts-test-app.herokuapp.com/')
+          .get('/city/London/users')
+          .reply(errorStatus, 'differing messages from the API - not important');
+
+        const location = 'london';
+        const res = await chai.request(app).get('/people').query({ location });
+
+        expect404(res, `No results found for '${location}'.`);
+      });
     });
   });
 });

@@ -1,7 +1,10 @@
+const rp = require('request-promise-native');
+
+const { server } = require('../config').api;
 const badRequest = require('./badRequest');
 const notFound = require('./notFound');
 
-function people(req, res) {
+async function people(req, res) {
   const { location } = req.query;
 
   if (!location) {
@@ -9,7 +12,17 @@ function people(req, res) {
   } else if (location.toLowerCase() !== 'london') {
     notFound(req, res);
   } else {
-    res.status(200).send({ work: 'in progress' });
+    const options = {
+      json: true,
+      uri: `${server}/city/London/users`,
+    };
+    try {
+      const data = await rp(options);
+      res.status(200).json(data);
+    } catch (err) {
+      // TODO: differentiate between different errors???
+      notFound(req, res);
+    }
   }
 }
 
