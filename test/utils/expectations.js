@@ -13,14 +13,14 @@ function expect400(res, detail) {
   expect(res.body).to.have.property('title', message);
 }
 
-function expect404(res) {
+function expect404(res, detail = 'Not Found') {
   const statusCode = 404;
   const message = 'Not Found';
 
   expect(res).to.have.status(statusCode);
   expect(res).to.have.header('Content-Type', 'application/problem+json; charset=utf-8');
   expect(res.body).to.have.property('status', statusCode);
-  expect(res.body).to.have.property('detail', message);
+  expect(res.body).to.have.property('detail', detail);
   expect(res.body).to.have.property('title', message);
 }
 

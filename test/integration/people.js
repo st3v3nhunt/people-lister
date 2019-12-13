@@ -24,9 +24,10 @@ describe('people route', () => {
 
   describe('with location query', () => {
     it('should return 404 response as JSON when location is not london', async () => {
-      const res = await chai.request(app).get('/people').query({ location: 'not-london' });
+      const location = 'not-london';
+      const res = await chai.request(app).get('/people').query({ location });
 
-      expect404(res);
+      expect404(res, `No results found for '${location}'.`);
     });
 
     it.skip('should return 200 response with all people matching query as JSON', async () => {
