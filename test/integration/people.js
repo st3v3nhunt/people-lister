@@ -17,7 +17,7 @@ chai.use(chaiHttp);
 describe('people route', () => {
   const validLocation = 'london';
 
-  describe('without location query', () => {
+  describe('without location param', () => {
     it('should return 400 JSON response when location param is not supplied', async () => {
       const res = await chai.request(app).get('/people');
 
@@ -31,7 +31,7 @@ describe('people route', () => {
     });
   });
 
-  describe('with location query only', () => {
+  describe('with location param only', () => {
     it('should return 404 JSON response when location is not london', async () => {
       const location = 'not-london';
       const res = await chai.request(app).get('/people').query({ location });
@@ -67,7 +67,7 @@ describe('people route', () => {
     });
   });
 
-  describe('with location and distance query', () => {
+  describe('with location and distance param', () => {
     it('should return 400 JSON response when distance is included but is not 50', async () => {
       const distance = 'not-50';
       const res = await chai.request(app).get('/people').query({ distance, location: validLocation });
