@@ -26,4 +26,26 @@ describe('basic features', () => {
       expect(res.body).to.be.empty;
     });
   });
+
+  describe('security headers', () => {
+    let res;
+
+    before('make request', async () => {
+      res = await chai.request(app).get('/');
+    });
+
+    it('should return security related headers', () => {
+      expect(res).to.have.header('X-DNS-Prefetch-Control', 'off');
+      expect(res).to.have.header('X-Frame-Options', 'DENY');
+      expect(res).to.have.header('Strict-Transport-Security', 'max-age=15552000; includeSubDomains');
+      expect(res).to.have.header('X-Download-Options', 'noopen');
+      expect(res).to.have.header('X-Content-Type-Options', 'nosniff');
+      expect(res).to.have.header('Referrer-Policy', 'no-referrer');
+      expect(res).to.have.header('X-Xss-Protection', '1; mode=block');
+    });
+
+    it('should not return tech advertising headers', () => {
+      expect(res).to.not.have.header('X-Powered-By');
+    });
+  });
 });
