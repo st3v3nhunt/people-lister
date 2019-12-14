@@ -39,6 +39,15 @@ information about what this provide.
 
 ### Implementation notes
 
+The source API is case sensitive. I've decided not enforce case sensitivity on
+my API and I presume the cities are capitalised on the first letter only
+although this could very well be a mistake.  My reason for not following case
+sensitivity, even though there are several [RFCs stating this should be the
+case](https://stackoverflow.com/a/26196170) is because I believe it makes the
+API easier to use. In turn, this is likely to attract more users and fewer
+bugs. It is also means clients do not need detailed knowledge of the data (in
+this case the city names) as it feels like this is implementation detail.
+
 Testing was based around creating integration tests for API functions.
 Consequently there are no unit tests as the functionality has been covered at
 the higher level. This can be confirmed with the high code coverage
