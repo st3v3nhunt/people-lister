@@ -11,13 +11,14 @@ const cityUsersResponse = require('../resources/city-users.json');
 const twoLondonUsersResponse = require('../resources/two-london-users.json');
 const twoÄlvsjöUsersResponse = require('../resources/two-Älvsjö-users.json');
 const zeroCityDwellersResponse = require('../resources/zero-city-users.json');
+const noLocationLookupResponse = require('../resources/no-location-results.json');
 
 const { expect } = chai;
 
 chai.use(chaiHttp);
 
 describe('people route', () => {
-  const validLocation = 'london';
+  const locationLondon = 'london';
 
   describe('without location param', () => {
     it('should return 400 JSON response when location param is not supplied', async () => {
@@ -55,9 +56,9 @@ describe('people route', () => {
           .get(`/city/${errorStatus}/users`)
           .reply(errorStatus, 'differing messages from the API - not important');
 
-        const res = await chai.request(app).get('/people').query({ location: validLocation });
+        const res = await chai.request(app).get('/people').query({ location: locationLondon });
 
-        expect404(res, `No results found for '${validLocation}'.`);
+        expect404(res, `No results found for '${locationLondon}'.`);
       });
     });
   });
@@ -68,7 +69,7 @@ describe('people route', () => {
         .get('/users')
         .reply(200, zeroCityDwellersResponse);
       const distance = 50;
-      const res = await chai.request(app).get('/people').query({ distance, location: validLocation });
+      const res = await chai.request(app).get('/people').query({ distance, location: locationLondon });
 
       expect(res).to.have.status(200);
       expect(res).to.be.json;
@@ -81,7 +82,7 @@ describe('people route', () => {
         .get('/users')
         .reply(200, zeroCityDwellersResponse);
       const distance = 10000;
-      const res = await chai.request(app).get('/people').query({ distance, location: validLocation });
+      const res = await chai.request(app).get('/people').query({ distance, location: locationLondon });
 
       expect(res).to.have.status(200);
       expect(res).to.be.json;
@@ -94,7 +95,7 @@ describe('people route', () => {
         .get('/users')
         .reply(200, twoLondonUsersResponse);
       const distance = 50;
-      const res = await chai.request(app).get('/people').query({ distance, location: validLocation });
+      const res = await chai.request(app).get('/people').query({ distance, location: locationLondon });
 
       expect(res).to.have.status(200);
       expect(res).to.be.json;
@@ -120,6 +121,19 @@ describe('people route', () => {
       expect(res).to.be.json;
       expect(res.body).to.be.instanceof(Array);
       expect(res.body.length).to.equal(2);
+    });
+
+    it('should return 404 JSON reponse when the location lookup returns no results', async () => {
+      const location = 'No-results';
+      nock('https://geocode.xyz')
+        .get(`/${encodeURIComponent(location)}`)
+        .query({ json: 1 })
+        .reply(200, noLocationLookupResponse);
+
+      const distance = 50;
+      const res = await chai.request(app).get('/people').query({ distance, location });
+
+      expect404(res, `No results found for '${location}'.`);
     });
   });
 });

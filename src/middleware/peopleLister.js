@@ -1,15 +1,18 @@
 const notFound = require('./notFound');
 const { distanceSearchType } = require('../config').app;
-const getLocationCoordinates = require('../utils/getLocationCoordinates');
 const filterUsers = require('../utils/filterUsers');
 const { getAllUsers, getLocationUsers } = require('../utils/request');
 
 async function peopleLister(req, res) {
-  const { distance, location, searchType } = res.locals;
+  const {
+    distance,
+    location,
+    origin,
+    searchType,
+  } = res.locals;
 
   try {
     if (searchType === distanceSearchType) {
-      const origin = await getLocationCoordinates(location);
       const data = await getAllUsers();
 
       const users = filterUsers(data, origin, distance);

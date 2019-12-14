@@ -1,0 +1,22 @@
+{
+  "longt": "0.00000",
+  "standard": {
+    "addresst": {},
+    "prov": {},
+    "city": {},
+    "countryname": {},
+    "postal": {},
+    "confidence": "0"
+  },
+  "matches": null,
+  "alt": {},
+  "error": {
+    "description": "15. Your request did not produce any results.",
+    "code": "008"
+  },
+  "suggestion": {
+    "region": {},
+    "locate": {}
+  },
+  "latt": "0.00000"
+}
