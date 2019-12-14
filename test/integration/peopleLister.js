@@ -6,9 +6,11 @@ const app = require('../../app');
 const { server } = require('../../src/config').api;
 const { expect400, expect404 } = require('../utils/expectations');
 
-const zeroLondoners = require('../resources/zero-london-users.json');
-const cityUsers = require('../resources/city-users.json');
-const twoLondoners = require('../resources/two-london-users.json');
+const ÄlvsjöForwardGeocodeResponse = require('../resources/Älvsjö-forward-geocode.json');
+const cityUsersResponse = require('../resources/city-users.json');
+const twoLondonUsersResponse = require('../resources/two-london-users.json');
+const twoÄlvsjöUsersResponse = require('../resources/two-Älvsjö-users.json');
+const zeroCityDwellersResponse = require('../resources/zero-city-users.json');
 
 const { expect } = chai;
 
@@ -36,7 +38,7 @@ describe('people route', () => {
       it(`should capitalise the first letter of the location value, regardless of input casing (test case - '${location}')`, async () => {
         nock(server)
           .get('/city/Abcdef/users')
-          .reply(200, cityUsers);
+          .reply(200, cityUsersResponse);
 
         const res = await chai.request(app).get('/people').query({ location });
 
@@ -61,17 +63,10 @@ describe('people route', () => {
   });
 
   describe('with location and distance param', () => {
-    it('should return 400 JSON response when distance is included but is not 50', async () => {
-      const distance = 'not-50';
-      const res = await chai.request(app).get('/people').query({ distance, location: validLocation });
-
-      expect400(res, 'Distance must be 50.');
-    });
-
     it('should return 200 JSON response when no users are located within 50 miles of London', async () => {
       nock(server)
         .get('/users')
-        .reply(200, zeroLondoners);
+        .reply(200, zeroCityDwellersResponse);
       const distance = 50;
       const res = await chai.request(app).get('/people').query({ distance, location: validLocation });
 
@@ -81,12 +76,45 @@ describe('people route', () => {
       expect(res.body.length).to.equal(0);
     });
 
+    it('should return 200 JSON response when all users are located within 10000 miles of London', async () => {
+      nock(server)
+        .get('/users')
+        .reply(200, zeroCityDwellersResponse);
+      const distance = 10000;
+      const res = await chai.request(app).get('/people').query({ distance, location: validLocation });
+
+      expect(res).to.have.status(200);
+      expect(res).to.be.json;
+      expect(res.body).to.be.instanceof(Array);
+      expect(res.body.length).to.equal(10);
+    });
+
     it('should return 200 JSON reponse when users are located within 50 miles of London', async () => {
       nock(server)
         .get('/users')
-        .reply(200, twoLondoners);
+        .reply(200, twoLondonUsersResponse);
       const distance = 50;
       const res = await chai.request(app).get('/people').query({ distance, location: validLocation });
+
+      expect(res).to.have.status(200);
+      expect(res).to.be.json;
+      expect(res.body).to.be.instanceof(Array);
+      expect(res.body.length).to.equal(2);
+    });
+
+    it('should return 200 JSON reponse after having looked up a non-London location', async () => {
+      const location = 'Älvsjö';
+      nock('https://geocode.xyz')
+        .get(`/${encodeURIComponent(location)}`)
+        .query({ json: 1 })
+        .reply(200, ÄlvsjöForwardGeocodeResponse);
+
+      nock(server)
+        .get('/users')
+        .reply(200, twoÄlvsjöUsersResponse);
+
+      const distance = 50;
+      const res = await chai.request(app).get('/people').query({ distance, location });
 
       expect(res).to.have.status(200);
       expect(res).to.be.json;

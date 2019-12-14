@@ -2,13 +2,12 @@ const badRequest = require('./badRequest');
 const { distanceSearchType } = require('../config').app;
 
 function validateDistance(req, res, next) {
-  const { distance } = req.query;
+  let { distance } = req.query;
 
   if (distance) {
     res.locals.searchType = distanceSearchType;
-    if (parseInt(distance, 10) !== 50) {
-      return badRequest(req, res, 'Distance must be 50.');
-    }
+    distance = parseInt(distance, 10);
+    res.locals.distance = distance;
   }
 
   return next();

@@ -1,6 +1,6 @@
 const rp = require('request-promise-native');
 
-const { server } = require('../config').api;
+const { geocode, server } = require('../config').api;
 
 function request(uri) {
   const options = {
@@ -14,11 +14,16 @@ function getAllUsers() {
   return request(`${server}/users`);
 }
 
-function getLocationUsers(res) {
-  return request(`${server}/city/${res.locals.location}/users`);
+function getLocationUsers(location) {
+  return request(`${server}/city/${location}/users`);
+}
+
+function forwardGeocode(location) {
+  return request(`${geocode}/${encodeURIComponent(location)}?json=1`);
 }
 
 module.exports = {
+  forwardGeocode,
   getAllUsers,
   getLocationUsers,
 };

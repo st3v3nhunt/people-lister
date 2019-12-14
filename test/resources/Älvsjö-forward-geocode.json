@@ -1,0 +1,24 @@
+{
+  "standard": {
+    "addresst": {},
+    "city": "Älvsjö",
+    "prov": "SE",
+    "countryname": "Sweden",
+    "postal": {},
+    "confidence": "0.90"
+  },
+  "longt": "18.00304",
+  "alt": {
+    "loc": {
+      "longt": "18.03142",
+      "prov": "SE",
+      "city": "Älvsjö",
+      "countryname": "Sweden",
+      "postal": "12540",
+      "region": {},
+      "latt": "59.27465"
+    }
+  },
+  "elevation": {},
+  "latt": "59.27733"
+}

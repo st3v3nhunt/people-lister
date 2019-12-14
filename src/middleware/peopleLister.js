@@ -1,21 +1,21 @@
 const notFound = require('./notFound');
 const { distanceSearchType } = require('../config').app;
+const getLocationCoordinates = require('../utils/getLocationCoordinates');
 const filterUsers = require('../utils/filterUsers');
 const { getAllUsers, getLocationUsers } = require('../utils/request');
 
 async function peopleLister(req, res) {
-  const { searchType } = res.locals;
+  const { distance, location, searchType } = res.locals;
 
   try {
     if (searchType === distanceSearchType) {
-      // TODO: perform lookup based on location - currently hardcoded to London
-      const origin = { latitude: 51.5074, longitude: 0.1278 };
+      const origin = await getLocationCoordinates(location);
       const data = await getAllUsers();
 
-      const users = filterUsers(data, origin);
+      const users = filterUsers(data, origin, distance);
       res.status(200).json(users);
     } else {
-      const data = await getLocationUsers(res);
+      const data = await getLocationUsers(location);
       res.status(200).json(data);
     }
   } catch (err) {
