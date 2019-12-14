@@ -1,7 +1,8 @@
 const bunyan = require('bunyan');
+const { level } = require('../config').app.logger;
 
 function getLevel() {
-  const logLevel = parseInt(process.env.LOG_LEVEL, 10);
+  const logLevel = parseInt(level, 10);
   return (Number.isNaN(logLevel)) ? 30 : logLevel;
 }
 

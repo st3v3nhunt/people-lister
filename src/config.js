@@ -7,7 +7,7 @@ const config = {
     distanceSearchType: 'distance',
     locationSearchType: 'location',
     logger: {
-      level: process.env.LOG_LEVEL,
+      level: process.env.LOG_LEVEL || 30,
     },
     port: process.env.PORT || 3000,
   },

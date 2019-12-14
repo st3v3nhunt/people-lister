@@ -1,4 +1,4 @@
-const badRequest = require('./badRequest');
+const errorResponse = require('./errorResponse');
 const { distanceSearchType } = require('../config').app;
 
 function validateDistance(req, res, next) {
@@ -17,7 +17,7 @@ function validateLocation(req, res, next) {
   const { location } = req.query;
 
   if (!location) {
-    return badRequest(req, res, 'Request must contain a \'location\' parameter.');
+    return errorResponse(req, res, { message: 'Request must contain a \'location\' parameter.', status: 400 });
   }
   const lowercaseLocation = location.toLowerCase();
   res.locals.location = `${location.charAt(0).toUpperCase()}${lowercaseLocation.slice(1)}`;

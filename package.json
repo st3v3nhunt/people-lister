@@ -9,7 +9,7 @@
     "start": "node app.js",
     "start-watch": "nodemon app.js",
     "start-watch-debug": "LOG_LEVEL=20 nodemon --inspect-brk app.js",
-    "test": "PORT=3002 nyc --nycrc-path=.nycrc.json mocha --exit --recursive test",
+    "test": "PORT=3002 nyc --nycrc-path=.nycrc.json --reporter=html --reporter=cobertura mocha --exit --recursive test",
     "test-watch": "LOG_LEVEL=50 PORT=3001 npm run test -- --watch --reporter min"
   },
   "keywords": [

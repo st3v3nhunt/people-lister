@@ -1,4 +1,4 @@
-const notFound = require('./notFound');
+const errorResponse = require('./errorResponse');
 const { distanceSearchType } = require('../config').app;
 const filterUsers = require('../utils/filterUsers');
 const { getAllUsers, getLocationUsers } = require('../utils/request');
@@ -23,7 +23,7 @@ async function peopleLister(req, res) {
     }
   } catch (err) {
     // TODO: differentiate between different errors???
-    notFound(req, res);
+    errorResponse(req, res, { status: 404 });
   }
 }
 
