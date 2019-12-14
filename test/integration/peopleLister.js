@@ -4,7 +4,7 @@ const nock = require('nock');
 
 const app = require('../../app');
 const { server } = require('../../src/config').api;
-const { expect400, expect404 } = require('../utils/expectations');
+const { expect400, expect404, expect500 } = require('../utils/expectations');
 
 const ÄlvsjöForwardGeocodeResponse = require('../resources/Älvsjö-forward-geocode.json');
 const cityUsersResponse = require('../resources/city-users.json');
@@ -56,9 +56,9 @@ describe('people route', () => {
           .get(`/city/${errorStatus}/users`)
           .reply(errorStatus, 'differing messages from the API - not important');
 
-        const res = await chai.request(app).get('/people').query({ location: locationLondon });
+        const res = await chai.request(app).get('/people').query({ location: errorStatus });
 
-        expect404(res, `No results found for '${locationLondon}'.`);
+        expect404(res, `No results found for '${errorStatus}'.`);
       });
     });
   });
@@ -134,6 +134,19 @@ describe('people route', () => {
       const res = await chai.request(app).get('/people').query({ distance, location });
 
       expect404(res, `No results found for '${location}'.`);
+    });
+
+    it('should return 500 JSON reponse when the location lookup errors', async () => {
+      const location = 'Error-generating-location';
+      nock('https://geocode.xyz')
+        .get(`/${encodeURIComponent(location)}`)
+        .query({ json: 1 })
+        .replyWithError('An error has occurred');
+
+      const distance = 50;
+      const res = await chai.request(app).get('/people').query({ distance, location });
+
+      expect500(res);
     });
   });
 });

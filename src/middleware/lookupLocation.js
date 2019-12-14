@@ -1,5 +1,6 @@
 const { distanceSearchType } = require('../config').app;
 const notFound = require('./notFound');
+const serverError = require('./serverError');
 const getLocationCoordinates = require('../utils/getLocationCoordinates');
 
 async function lookupLocation(req, res, next) {
@@ -9,17 +10,16 @@ async function lookupLocation(req, res, next) {
     let origin;
     try {
       origin = await getLocationCoordinates(location);
+      res.locals.origin = origin;
+      if (origin.error) {
+        notFound(req, res);
+      } else {
+        next();
+      }
     } catch (err) {
+      // TODO: proper loggin
       console.log(err);
-      // log and return a server error response
-      // return serverError();
-    }
-
-    res.locals.origin = origin;
-    if (origin.error) {
-      notFound(req, res);
-    } else {
-      next();
+      serverError(req, res);
     }
   } else {
     next();

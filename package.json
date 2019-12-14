@@ -8,9 +8,9 @@
     "lint": "eslint --ext .js,.json .",
     "start": "node app.js",
     "start-watch": "nodemon app.js",
-    "start-watch-debug": "nodemon --inspect-brk app.js",
+    "start-watch-debug": "LOG_LEVEL=20 nodemon --inspect-brk app.js",
     "test": "PORT=3002 nyc --nycrc-path=.nycrc.json mocha --exit --recursive test",
-    "test-watch": "PORT=3001 npm run test -- --watch --reporter min"
+    "test-watch": "LOG_LEVEL=50 PORT=3001 npm run test -- --watch --reporter min"
   },
   "keywords": [
     "people",

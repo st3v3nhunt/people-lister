@@ -7,11 +7,15 @@ function expectErrorResponse(res, statusCode, message) {
   switch (statusCode) {
     case 400:
       title = 'Bad Request';
-      message = message || 'Bad Request';
+      message = message || title;
       break;
     case 404:
       title = 'Not Found';
-      message = message || 'Not Found';
+      message = message || title;
+      break;
+    case 500:
+      title = 'Internal Server Error';
+      message = message || title;
       break;
     default:
       throw new Error('Unknown status code being tested');
@@ -32,7 +36,12 @@ function expect404(res, message) {
   expectErrorResponse(res, 404, message);
 }
 
+function expect500(res, message) {
+  expectErrorResponse(res, 500, message);
+}
+
 module.exports = {
   expect400,
   expect404,
+  expect500,
 };

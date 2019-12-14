@@ -32,10 +32,11 @@ information about what this provide.
 
 ## Environment Variables
 
-| Variable     | Description                                                                                             | Default                                                                      |
-| :-------     | :----------                                                                                             | :------                                                                      |
-| `API_SERVER` | [FQDN](https://en.wikipedia.org/wiki/Fully_qualified_domain_name) of the API server, including protocol | [https://bpdts-test-app.herokuapp.com](https://bpdts-test-app.herokuapp.com) |
-| `PORT`       | The port the application is available on                                                                | 3000                                                                         |
+| Variable     | Description                                                                                                          | Default                                                                      |
+| :-------     | :----------                                                                                                          | :------                                                                      |
+| `API_SERVER` | [FQDN](https://en.wikipedia.org/wiki/Fully_qualified_domain_name) of the API server, including protocol              | [https://bpdts-test-app.herokuapp.com](https://bpdts-test-app.herokuapp.com) |
+| `LOG_LEVEL`  | An integer representing the level of logging to do. See [Bunyan Levels](https://www.npmjs.com/package/bunyan#levels) | 30 (info)                                                                    |
+| `PORT`       | The port the application is available on                                                                             | 3000                                                                         |
 
 ### Implementation notes
 
@@ -48,6 +49,12 @@ API easier to use. In turn, this is likely to attract more users and fewer
 bugs. It is also means clients do not need detailed knowledge of the data (in
 this case the city names) as it feels like this is implementation detail.
 
+[Geocode.xyz](https://geocode.xyz/) provides a free API for forward geocoding.
+It is rate limited to ~1 request per second when no authentication is supplied
+as per the [usage limits](https://geocode.xyz/api). The lookup is only
+performed for cities that are not London (London's coordinates are hard coded
+within the app).
+
 Testing was based around creating integration tests for API functions.
 Consequently there are no unit tests as the functionality has been covered at
 the higher level. This can be confirmed with the high code coverage
@@ -59,6 +66,7 @@ requirements being met.
 * Web framework - ([Express.js](https://expressjs.com/))
 * HTTP request library -
   [request-promise-native](https://www.npmjs.com/package/request-promise-native).
+* Geocoding uses the [geocode.xyz](https://geocode.xyz/) API
 * Logging - [bunyan](https://www.npmjs.com/package/bunyan)
 * [nodemon](https://www.npmjs.com/package/nodemon) for auto-reloading of the app
 * [husky](https://www.npmjs.com/package/husky) for

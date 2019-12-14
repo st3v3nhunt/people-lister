@@ -6,6 +6,9 @@ const config = {
   app: {
     distanceSearchType: 'distance',
     locationSearchType: 'location',
+    logger: {
+      level: process.env.LOG_LEVEL,
+    },
     port: process.env.PORT || 3000,
   },
 };
