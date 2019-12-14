@@ -18,12 +18,30 @@ in the editor will not be saved back to the repository._
 
 ## Running the app
 
+### Directly
+
 Node.js needs to be installed in the environment where the app will be run.
 Dependencies are installed via `npm install`.
 The app can be started by running `npm run start` after which the API will be
 available at [http://localhost:3000](http://localhost:3000).
 
-### API information and instructions
+### Docker
+
+If you have [Docker](https://www.docker.com/) installed, the app can be built
+and run without any concern for the state of the local environment e.g. which
+version of `Node.js` is installed, is `npm` up to date, etc.
+
+In order to run the app with Docker, the [Dockerfile](Dockerfile) can be used
+to build an image. This can be done by running `docker build . -t
+people-lister` (this may take several minutes depending on network and machine
+performance). Once the image is built it can be run with `docker run -d -p
+3000:3000 -t people-lister`. This will start the application running on port
+`3000` and will be available at [http://localhost:3000](http://localhost:3000).
+If `3000` isn't suitable, change the first `3000` in the `docker run` command
+to a suitable port e.g. `docker run -d -p 3003:3000 -t people-lister` would
+expose the site on port `3003`.
+
+## Using the API - information and instructions
 
 The root page provides a set of links which can be followed to see the results
 of the requested functionality i.e. listing users living in London and listing
