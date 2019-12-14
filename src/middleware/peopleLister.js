@@ -15,7 +15,7 @@ async function peopleLister(req, res) {
       const users = filterUsers(data, origin);
       res.status(200).json(users);
     } else {
-      const data = await getLocationUsers();
+      const data = await getLocationUsers(res);
       res.status(200).json(data);
     }
   } catch (err) {

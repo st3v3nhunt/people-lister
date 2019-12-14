@@ -7,7 +7,7 @@ const { server } = require('../../src/config').api;
 const { expect400, expect404 } = require('../utils/expectations');
 
 const zeroLondoners = require('../resources/zero-london-users.json');
-const londonCityUsers = require('../resources/london-city-users.json');
+const cityUsers = require('../resources/city-users.json');
 const twoLondoners = require('../resources/two-london-users.json');
 
 const { expect } = chai;
@@ -32,18 +32,11 @@ describe('people route', () => {
   });
 
   describe('with location param only', () => {
-    it('should return 404 JSON response when location is not london', async () => {
-      const location = 'not-london';
-      const res = await chai.request(app).get('/people').query({ location });
-
-      expect404(res, `No results found for '${location}'.`);
-    });
-
-    ['London', 'london', 'LONDON'].forEach((location) => {
-      it(`should return 'London' users when request is for 'london', regardless of input casing (test case - '${location}')`, async () => {
+    ['Abcdef', 'abcdef', 'ABCDEF'].forEach((location) => {
+      it(`should capitalise the first letter of the location value, regardless of input casing (test case - '${location}')`, async () => {
         nock(server)
-          .get('/city/London/users')
-          .reply(200, londonCityUsers);
+          .get('/city/Abcdef/users')
+          .reply(200, cityUsers);
 
         const res = await chai.request(app).get('/people').query({ location });
 
@@ -57,7 +50,7 @@ describe('people route', () => {
     [400, 403, 404, 500].forEach((errorStatus) => {
       it(`should return 404 JSON response when request to API returns an error (test case - '${errorStatus}')`, async () => {
         nock(server)
-          .get('/city/London/users')
+          .get(`/city/${errorStatus}/users`)
           .reply(errorStatus, 'differing messages from the API - not important');
 
         const res = await chai.request(app).get('/people').query({ location: validLocation });

@@ -14,8 +14,8 @@ function getAllUsers() {
   return request(`${server}/users`);
 }
 
-function getLocationUsers() {
-  return request(`${server}/city/London/users`);
+function getLocationUsers(res) {
+  return request(`${server}/city/${res.locals.location}/users`);
 }
 
 module.exports = {
