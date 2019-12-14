@@ -22,8 +22,7 @@ async function peopleLister(req, res) {
       res.status(200).json(data);
     }
   } catch (err) {
-    // TODO: differentiate between different errors???
-    errorResponse(req, res, { status: 404 });
+    errorResponse(req, res, { status: 500 });
   }
 }
 

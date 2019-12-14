@@ -11,16 +11,13 @@ async function lookupLocation(req, res, next) {
       origin = await getLocationCoordinates(location);
       res.locals.origin = origin;
       if (origin.error) {
-        errorResponse(req, res, { status: 404 });
-      } else {
-        next();
+        return errorResponse(req, res, { status: 404 });
       }
     } catch (err) {
-      errorResponse(req, res, { status: 500 });
+      return errorResponse(req, res, { status: 500 });
     }
-  } else {
-    next();
   }
+  return next();
 }
 
 module.exports = lookupLocation;

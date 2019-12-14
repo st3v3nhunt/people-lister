@@ -51,14 +51,14 @@ describe('people route', () => {
     });
 
     [400, 403, 404, 500].forEach((errorStatus) => {
-      it(`should return 404 JSON response when request to API returns an error (test case - '${errorStatus}')`, async () => {
+      it(`should return 500 JSON response when request to API returns an error (test case - '${errorStatus}')`, async () => {
         nock(server)
           .get(`/city/${errorStatus}/users`)
           .reply(errorStatus, 'differing messages from the API - not important');
 
         const res = await chai.request(app).get('/people').query({ location: errorStatus });
 
-        expect404(res, `No results found for '${errorStatus}'.`);
+        expect500(res);
       });
     });
   });
