@@ -2,10 +2,9 @@ const router = require('express').Router();
 
 const peopleLister = require('./peopleLister');
 const { validateLocation, validateDistance } = require('./requestValidator');
+const rootRoute = require('./rootRoute');
 
-router.get('/', (req, res) => {
-  res.json({ greeting: 'hello' });
-});
+router.get('/', rootRoute);
 
 router.get(
   '/people',

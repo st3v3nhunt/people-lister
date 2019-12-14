@@ -9,13 +9,13 @@ chai.use(chaiHttp);
 
 describe('basic features', () => {
   describe('valid route', () => {
-    it('should return 200 response as JSON', async () => {
+    it('should return 200 JSON response with links for the instructions', async () => {
       const res = await chai.request(app).get('/');
 
       expect(res).to.have.status(200);
       expect(res).to.be.json;
       expect(res.body).to.be.an('object');
-      expect(res.body).to.have.property('greeting', 'hello');
+      expect(res.body).to.have.property('links');
     });
   });
 

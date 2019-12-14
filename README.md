@@ -22,7 +22,13 @@ Node.js needs to be installed in the environment where the app will be run.
 Dependencies are installed via `npm install`.
 The app can be started by running `npm run start` after which the API will be
 available at [http://localhost:3000](http://localhost:3000).
- 
+
+### API information and instructions
+
+The root page provides a set of links which can be followed to see the results
+of the requested functionality i.e. listing users living in London and listing
+users located within 50 miles of London. There are additional links with
+information about what this provide.
 
 ## Environment Variables
 
