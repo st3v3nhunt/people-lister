@@ -39,7 +39,10 @@ information about what this provide.
 
 ### Implementation notes
 
-...
+Testing was based around creating integration tests for API functions.
+Consequently there are no unit tests as the functionality has been covered at
+the higher level. This can be confirmed with the high code coverage
+requirements being met.
 
 ### Tools and technologies
 
