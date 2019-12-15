@@ -23,6 +23,7 @@ function expectErrorResponse(res, statusCode, message) {
 
   expect(res).to.have.status(statusCode);
   expect(res).to.have.header('Content-Type', 'application/problem+json; charset=utf-8');
+  expect(res.body).to.have.all.keys('status', 'detail', 'title');
   expect(res.body).to.have.property('status', statusCode);
   expect(res.body).to.have.property('detail', message);
   expect(res.body).to.have.property('title', title);

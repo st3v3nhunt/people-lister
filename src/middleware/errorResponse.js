@@ -1,34 +1,42 @@
+const log = require('./../utils/logger');
+
 function errorResponse(req, res, options) {
   const { message, status } = options;
-  let title;
-  let detail;
+  const { originalUrl, query: { location } } = req;
 
-  const { location } = req.query;
+  const msg = {
+    status,
+    url: originalUrl,
+  };
 
   switch (status) {
     case 400:
-      title = 'Bad Request';
-      detail = message || title;
+      msg.title = 'Bad Request';
+      msg.detail = message || msg.title;
       break;
     case 404:
-      title = 'Not Found';
-      detail = message || title;
+      msg.title = 'Not Found';
 
       if (location !== undefined) {
-        detail = `No results found for '${location}'.`;
+        msg.detail = `No results found for '${location}'.`;
+      } else {
+        msg.detail = message || msg.title;
       }
       break;
     case 500:
-      title = 'Internal Server Error';
-      detail = message || title;
+      msg.title = 'Internal Server Error';
+      msg.detail = message || msg.title;
       break;
     default:
       break;
   }
 
+  log.warn(msg);
+  delete msg.url;
+
   res.set('Content-Type', 'application/problem+json; charset=utf-8')
     .status(status)
-    .send({ detail, status, title });
+    .send(msg);
 }
 
 module.exports = errorResponse;
