@@ -5,14 +5,20 @@
 
 The instructions could (and probably should) have been interpreted a little
 more literally than what this repo represents. An API with two endpoints, one
-for London users and another for users within 50 miles of London would have
-probably sufficed.
-Having said that, after looking at the source API and the requested features I
+for
+[London users](https://people-lister.azurewebsites.net/people?location=london)
+and another for
+[users within 50 miles of London](https://people-lister.azurewebsites.net/people?location=london&distance=50)
+would have probably sufficed.
+
+However, after looking at the source API and the requested features I
 thought I'd implement an API providing the capability I'd imagine would be
 required from the API after several rounds of iteration. This approach isn't
 always a good idea given the requirements for the additional functionality
-might never materialise, however, I thought I'd take the opportunity to do it
-for my own interest.
+might never materialise and it ignores the principle of
+[YAGNI](https://martinfowler.com/bliki/Yagni.html), however, I thought I'd do
+it anyway.
+
 Therefore, this API has an endpoint that will return people for any given city,
 as long as the city has results in the source API. The same endpoint also
 allows a variable distance from which people should be returned from _any_
@@ -22,13 +28,24 @@ city, rather than just London.
 
 This API has been documented using
 [OpenAPI 3.0 Specification](https://swagger.io/docs/specification/about/).
-The file is available within the repo - [swagger.yml](./swagger.yml).
+The file is available within the repo - [swagger.yml](swagger.yml).
 
 To view the file in an online editor, click this
 [link](https://editor.swagger.io?url=https://raw.githubusercontent.com/st3v3nhunt/people-lister/master/swagger.yml).
 
 _Note: there is no link between the editor and the repository. Any changes made
 in the editor will not be saved back to the repository._
+
+## The API
+
+For those who are interested in just seeing the API working without having to
+build it or running it locally, there is a deployed instance available at
+[https://people-lister.azurewebsites.net/](https://people-lister.azurewebsites.net/).
+
+I make no guarantees about this app's availability. However, I have setup
+availability alerts on it and the services it depends on so I should at least
+know it isn't working. Whether I'll be able to do anything about it at the time
+is another matter entirely!
 
 ## Running the app
 
@@ -45,15 +62,27 @@ If you have [Docker](https://www.docker.com/) installed, the app can be built
 and run without any concern for the state of the local environment e.g. which
 version of `Node.js` is installed, is `npm` up to date, etc.
 
-In order to run the app with Docker, the [Dockerfile](Dockerfile) can be used
-to build an image. This can be done by running `docker build . -t
-people-lister` (this may take several minutes depending on network and machine
-performance). Once the image is built it can be run with `docker run --init -p
+#### DockerHub image
+
+There is an image available in DockerHub at
+[st3v3nhunt/people-lister](https://hub.docker.com/r/st3v3nhunt/people-lister).
+Running `docker pull st3v3nhunt/people-lister:latest && docker run
+--init -p 3000:3000 st3v3nhunt/people-lister:latest` will retrieve the image
+and start application running.
+It will be available at [http://localhost:3000](http://localhost:3000).
+
+#### Build and run image from code
+
+The app can be built and run locally (rather than using the DockerHub image).
+To do this, build the image with `docker build . -t people-lister` (this may
+take several minutes depending on network and machine performance).
+Once the image is built it can be run with `docker run --init -p
 3000:3000 -t people-lister`. This will start the application running on port
 `3000` and will be available at [http://localhost:3000](http://localhost:3000).
-If `3000` isn't suitable, change the first `3000` in the `docker run` command
+
+If port `3000` isn't suitable, change the first `3000` in the `docker run` command
 to a suitable port e.g. `docker run --init -p 5000:3000 -t people-lister` would
-expose the site on port `5000`.
+make the site available on port `5000`.
 
 ## Using the API - information and instructions
 
