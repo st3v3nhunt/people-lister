@@ -91,6 +91,13 @@ the results of the requested functionality i.e. listing users living in London
 and listing users located within 50 miles of London. There are additional
 links, each with information about what the link provides.
 
+The root of the API e.g. [http://localhost:3000](http://localhost:3000) is best
+viewed using a browser with a JSON pretty printer extension e.g.
+[JSONView](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc?hl=en)
+or
+[JSON Formatter](https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa?hl=en)
+- both Chrome browser extensions. Other browsers and extensions are available.
+
 ## Environment Variables
 
 The following environment variables are used within the application.
