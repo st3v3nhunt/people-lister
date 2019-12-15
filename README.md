@@ -30,7 +30,8 @@ This API has been documented using
 [OpenAPI 3.0 Specification](https://swagger.io/docs/specification/about/).
 The file is available within the repo - [swagger.yml](swagger.yml).
 
-To view the file in an online editor, click this
+To view the file in an online editor and use the 'Try it out' features, click
+this
 [link](https://editor.swagger.io?url=https://raw.githubusercontent.com/st3v3nhunt/people-lister/master/swagger.yml).
 
 _Note: there is no link between the editor and the repository. Any changes made
@@ -92,11 +93,12 @@ and listing users located within 50 miles of London. There are additional
 links, each with information about what the link provides.
 
 The root of the API e.g. [http://localhost:3000](http://localhost:3000) is best
-viewed using a browser with a JSON pretty printer extension e.g.
+viewed using a browser with a JSON pretty print extension e.g.
 [JSONView](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc?hl=en)
 or
 [JSON Formatter](https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa?hl=en)
-- both Chrome browser extensions. Other browsers and extensions are available.
+(both of which are Chrome browser extensions - other browsers and extensions
+are available).
 
 ## Environment Variables
 
@@ -126,7 +128,7 @@ understanding of how it works by users.
 Case sensitivity feels like an unnecessary implementation detail that should
 not be exposed to clients.
 
-### Geocoding
+### Geocoding
 
 In order to provide the ability for cities other than London to return results
 with a given distance I've used [Geocode.xyz](https://geocode.xyz/). Geocode
