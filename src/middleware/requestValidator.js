@@ -17,7 +17,7 @@ function validateLocation(req, res, next) {
   const { location } = req.query;
 
   if (!location) {
-    return errorResponse(req, res, { message: 'Request must contain a \'location\' parameter.', status: 400 });
+    return errorResponse(req, res, { message: 'Request must contain a \'location\' parameter with a value.', status: 400 });
   }
   const lowercaseLocation = location.toLowerCase();
   res.locals.location = `${location.charAt(0).toUpperCase()}${lowercaseLocation.slice(1)}`;

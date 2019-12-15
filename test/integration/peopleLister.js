@@ -24,13 +24,13 @@ describe('people route', () => {
     it('should return 400 JSON response when location param is not supplied', async () => {
       const res = await chai.request(app).get('/people');
 
-      expect400(res, 'Request must contain a \'location\' parameter.');
+      expect400(res, 'Request must contain a \'location\' parameter with a value.');
     });
 
     it('should return 400 JSON response when location param is empty', async () => {
       const res = await chai.request(app).get('/people').query({ location: '' });
 
-      expect400(res, 'Request must contain a \'location\' parameter.');
+      expect400(res, 'Request must contain a \'location\' parameter with a value.');
     });
   });
 
