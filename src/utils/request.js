@@ -1,5 +1,7 @@
 const rp = require('request-promise-native');
 
+const log = require('./logger');
+
 const { geocode, server } = require('../config').api;
 
 function request(uri) {
@@ -10,16 +12,25 @@ function request(uri) {
   return rp(options);
 }
 
-function getAllUsers() {
-  return request(`${server}/users`);
+async function getAllUsers() {
+  log.info('Getting all users');
+  const result = await request(`${server}/users`);
+  log.debug(result, 'All users');
+  return result;
 }
 
-function getLocationUsers(location) {
-  return request(`${server}/city/${location}/users`);
+async function getLocationUsers(location) {
+  log.info(`Getting users for '${location}'`);
+  const result = await request(`${server}/city/${location}/users`);
+  log.debug(result, `Users returned for '${location}'`);
+  return result;
 }
 
-function forwardGeocode(location) {
-  return request(`${geocode}/${encodeURIComponent(location)}?json=1`);
+async function forwardGeocode(location) {
+  log.info(`Geocoding '${location}'`);
+  const result = await request(`${geocode}/${encodeURIComponent(location)}?json=1`);
+  log.debug(result, `Geocoding result for '${location}'`);
+  return result;
 }
 
 module.exports = {

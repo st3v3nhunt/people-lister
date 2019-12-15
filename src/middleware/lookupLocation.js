@@ -1,5 +1,5 @@
-const { distanceSearchType } = require('../config').app;
 const errorResponse = require('./errorResponse');
+const { distanceSearchType } = require('../config').app;
 const getLocationCoordinates = require('../utils/getLocationCoordinates');
 
 async function lookupLocation(req, res, next) {

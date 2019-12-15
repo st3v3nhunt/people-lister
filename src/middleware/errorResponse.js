@@ -1,4 +1,4 @@
-const log = require('./../utils/logger');
+const log = require('../utils/logger');
 
 function errorResponse(req, res, options) {
   const { message, status } = options;
