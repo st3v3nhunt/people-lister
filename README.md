@@ -37,17 +37,6 @@ this
 _Note: there is no link between the editor and the repository. Any changes made
 in the editor will not be saved back to the repository._
 
-## The API
-
-For those who are interested in just seeing the API working without having to
-build it or running it locally, there is a deployed instance available at
-[https://people-lister.azurewebsites.net/](https://people-lister.azurewebsites.net/).
-
-I make no guarantees about this app's availability. However, I have setup
-availability alerts on it and the services it depends on so I should at least
-know it isn't working. Whether I'll be able to do anything about it at the time
-is another matter entirely!
-
 ## Running the app
 
 ### Directly
